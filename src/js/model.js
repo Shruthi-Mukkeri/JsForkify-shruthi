@@ -52,10 +52,7 @@ export const loadRecipeSearch = async function (query) {
 
 export const getSearchResultPage = function (page = state.search.page) {
   state.search.page = page;
-  console.log(page, 'curPage');
-  const start = (page - 1) * state.search.resultsPerPage;
-  const end = page * state.search.resultsPerPage;
-  // console.log(page, start, end);
-  // console.log(state.search.results);
+  const start = (page - 1) * state.search.resultsPerPage; // 0
+  const end = page * state.search.resultsPerPage; // 9
   return state.search.results.slice(start, end);
 };

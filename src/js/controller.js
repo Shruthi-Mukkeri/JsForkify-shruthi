@@ -10,9 +10,9 @@ import 'regenerator-runtime/runtime'; //Polyfilling asunc/await
 
 // https://forkify-api.herokuapp.com/api/v2/recipes?search=pizza&key=<a7e23780-2954-4f4b-ba66-44ed96313cc7>
 
-if (module.hot) {
-  module.hot.accept();
-}
+// if (module.hot) {
+//   module.hot.accept();
+// }
 
 const controlRecipe = async function () {
   try {
@@ -40,7 +40,7 @@ const controlSearchResults = async function () {
     await model.loadRecipeSearch(query);
 
     //Render Results
-    resultsView.render(model.getSearchResultPage(5));
+    resultsView.render(model.getSearchResultPage());
 
     //Render Pagination
     paginationView.render(model.state.search);
@@ -50,8 +50,18 @@ const controlSearchResults = async function () {
 };
 // controlSearchResults();
 
+const controlPagination = function (gotoPage) {
+  //Render new Results
+  resultsView.render(model.getSearchResultPage(gotoPage));
+
+  //Render new Pagination
+  paginationView.render(model.state.search);
+  console.log();
+};
+
 function init() {
   recipeView.addHandlerRender(controlRecipe);
   searchView.addHandlerSearch(controlSearchResults);
+  paginationView.addHandlerClick(controlPagination);
 }
 init();
