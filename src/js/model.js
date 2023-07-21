@@ -23,7 +23,7 @@ export const loadRecipe = async function (id) {
       sourceUrl: recipe.source_url,
       title: recipe.title,
       publisher: recipe.publisher,
-      servings: recipe.serving,
+      servings: recipe.servings,
       ingredients: recipe.ingredients,
     };
   } catch (err) {
@@ -56,3 +56,13 @@ export const getSearchResultPage = function (page = state.search.page) {
   const end = page * state.search.resultsPerPage; // 9
   return state.search.results.slice(start, end);
 };
+
+export const updateServings = function (newServings) {
+  if (!state.recipe) return;
+  state.recipe.ingredients.forEach(ing => {
+    ing.quantity = (ing.quantity * newServings) / state.recipe.servings;
+    // newQt = oldQt * newServing / oldServing
+  });
+  state.recipe.servings = newServings;
+};
+// updateServings(6);

@@ -7,6 +7,18 @@ class RecipeView extends View {
   _errorMessage = 'we could not find the recipe Please try again';
   _message = '';
 
+  addHandlerUpdateServing(handler) {
+    this._parentElement.addEventListener('click', function (e) {
+      const btn = e.target.closest('.btn--tiny');
+      if (!btn) return;
+      const { updateTo } = btn.dataset;
+      if (+updateTo > 0) handler(+updateTo);
+    });
+    // const btn = this._parentElement.closest('.btn--tiny');
+    // console.log(btn);
+    // btn.addEventListener('click',)
+    // handler();
+  }
   _generateMarkupIngredient(ing) {
     return `
     <li class="recipe__ingredient">
@@ -56,12 +68,16 @@ class RecipeView extends View {
       <span class="recipe__info-text">servings</span>
 
       <div class="recipe__info-buttons">
-        <button class="btn--tiny btn--increase-servings">
+        <button class="btn--tiny btn--increase-servings" data-update-to=${
+          this._data.servings - 1
+        }>
           <svg>
             <use href="${icons}#icon-minus-circle"></use>
           </svg>
         </button>
-        <button class="btn--tiny btn--increase-servings">
+        <button class="btn--tiny btn--increase-servings" data-update-to=${
+          this._data.servings + 1
+        } >
           <svg>
             <use href="${icons}#icon-plus-circle"></use>
           </svg>
@@ -109,6 +125,7 @@ class RecipeView extends View {
   </div>
     `;
   }
+
   addHandlerRender(handler) {
     ['hashchange', 'load'].forEach(eve =>
       window.addEventListener(eve, handler)
