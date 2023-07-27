@@ -65,7 +65,7 @@ class RecipeView extends View {
       <span class="recipe__info-text">minutes</span>
     </div>
     <div class="recipe__info">
-      <svg class="recipe__info-icon">
+      <svg class="recipe__info-icon ">
         <use href="${icons}#icon-users"></use>
       </svg>
       <span class="recipe__info-data recipe__info-data--people">${
@@ -91,7 +91,7 @@ class RecipeView extends View {
       </div>
     </div>
 
-    <div class="recipe__user-generated">
+    <div class="recipe__user-generated ${this._data.key ? '' : 'hidden'}">
       <svg>
         <use href="${icons}#icon-user"></use>
       </svg>

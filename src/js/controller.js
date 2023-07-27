@@ -5,15 +5,17 @@ import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
 import paginationView from './views/paginationView.js';
 import bookmarksView from './views/bookmarksView.js';
+import addRecipeView from './views/addRecipeView.js';
+import { MODEL_CLOSE_SEC } from './config.js';
 
 import 'core-js/stable'; //To support old browsers
 import 'regenerator-runtime/runtime'; //Polyfilling asunc/await
 
 // https://forkify-api.herokuapp.com/api/v2/recipes?search=pizza&key=<a7e23780-2954-4f4b-ba66-44ed96313cc7>
 
-// if (module.hot) {
-//   module.hot.accept();
-// }
+if (module.hot) {
+  module.hot.accept();
+}
 
 const controlRecipe = async function () {
   try {
@@ -94,6 +96,35 @@ const controlBoolmarks = function () {
   bookmarksView.render(model.state.bookMarks);
 };
 
+const controlAddRecipe = async function (newRecipe) {
+  try {
+    //show loading spinner
+    addRecipeView.renderSpinner();
+
+    //Upload the new recipe data
+    await model.uploadRecipe(newRecipe);
+
+    //Render recipe
+    recipeView.render(model.state.recipe);
+
+    //Success Message
+    addRecipeView.renderMessage();
+
+    //Close form window
+    setTimeout(() => addRecipeView.toggleWindow(), MODEL_CLOSE_SEC * 1000);
+
+    //Render the bookmarks
+    bookmarksView.render(model.state.bookMarks);
+
+    //change id in the hash
+    window.history.pushState(null, '', `#${model.state.recipe.id}`);
+
+    setTimeout(() => location.reload(), MODEL_CLOSE_SEC * 1000);
+  } catch (error) {
+    console.log(error);
+    addRecipeView.renderError(error);
+  }
+};
 function init() {
   bookmarksView.addHandlerRender(controlBoolmarks);
   recipeView.addHandlerRender(controlRecipe);
@@ -101,5 +132,6 @@ function init() {
   recipeView.addHandlerBookmark(controlAddBookmark);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
+  addRecipeView.addHandlerUpload(controlAddRecipe);
 }
 init();
