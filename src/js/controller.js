@@ -121,16 +121,12 @@ const controlAddRecipe = async function (newRecipe) {
 
     setTimeout(() => location.reload(), MODEL_CLOSE_SEC * 1000);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     addRecipeView.renderError(error);
   }
 };
-const welcome = function () {
-  console.log('welcome there!');
-};
 
 function init() {
-  welcome();
   bookmarksView.addHandlerRender(controlBoolmarks);
   recipeView.addHandlerRender(controlRecipe);
   recipeView.addHandlerUpdateServing(controlServing);

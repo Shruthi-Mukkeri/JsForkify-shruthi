@@ -38,7 +38,7 @@ export const loadRecipe = async function (id) {
       state.recipe.bookMarked = false;
     }
   } catch (err) {
-    console.log(`${err}💥💥💥`);
+    // console.log(`${err}💥💥💥`);
     throw err;
   }
 };
@@ -96,7 +96,6 @@ export const deleteBookmark = function (id) {
   //Delete bookmark
   const index = state.bookMarks.findIndex(el => el.id === id);
   state.bookMarks.splice(index, 1);
-  console.log(index, 'deleted');
   //Mark current recipe NOT  bookmark
   if (id === state.recipe.id) state.recipe.bookMarked = false;
   persistBookmark();
@@ -108,7 +107,6 @@ export const uploadRecipe = async function (newRecipe) {
       .filter(entry => entry[0].startsWith('ingredient') && entry[1] !== '')
       .map(ing => {
         const ingArr = ing[1].replaceAll(' ', '').split(',');
-        console.log(ingArr);
         if (ingArr.length !== 3)
           throw new Error(
             'Wrong ingredient formate.Please use the correct formate'

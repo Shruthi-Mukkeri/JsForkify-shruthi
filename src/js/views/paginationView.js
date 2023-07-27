@@ -9,13 +9,11 @@ class paginationView extends View {
       const btn = e.target.closest('.btn--inline');
       if (!btn) return;
       const gotoPage = +btn.dataset.goto;
-      console.log(gotoPage);
       handler(gotoPage);
     });
   }
 
   _generateMarkup() {
-    console.log(this._data);
     const curPage = this._data.page;
 
     const numPages = Math.ceil(
@@ -24,7 +22,6 @@ class paginationView extends View {
 
     //page 1 and there are otherpages
     if (curPage === 1 && numPages > 1) {
-      console.log('pag1');
       return `<button data-goto="${
         curPage + 1
       }" class="btn--inline pagination__btn--next">
@@ -39,7 +36,6 @@ class paginationView extends View {
 
     //last page/
     if (curPage === numPages && numPages > 1) {
-      console.log('last page');
       return `<button data-goto="${
         curPage - 1
       }" class="btn--inline pagination__btn--prev">
@@ -54,7 +50,6 @@ class paginationView extends View {
 
     //Other page
     if (curPage < numPages) {
-      console.log('Other page');
       return `
         <button data-goto="${
           curPage - 1
